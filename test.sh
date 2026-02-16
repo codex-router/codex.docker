@@ -89,7 +89,7 @@ opencode --version >/dev/null
 echo "- Verifying qwen provider config"
 export OPENAI_BASE_URL="${TEST_BASE_URL}"
 export OPENAI_API_KEY="${TEST_API_KEY}"
-export OPENAI_MODEL="${TEST_MODEL}
+export OPENAI_MODEL="${TEST_MODEL}"
 for var_name in OPENAI_BASE_URL OPENAI_API_KEY OPENAI_MODEL; do
 	assert_non_empty "$var_name"
 done
