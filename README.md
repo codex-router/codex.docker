@@ -22,6 +22,20 @@ Build the image from the `codex.docker` directory:
 ./build.sh
 ```
 
+## Test
+
+Run the Docker smoke test from the `codex.docker` directory:
+
+```bash
+./test.sh
+```
+
+The test script builds a temporary image (`codex-cli-env:test`) and verifies:
+
+- Base image is Ubuntu.
+- All required CLI binaries are available and return `--version`.
+- `CLAUDE_PATH`, `CODEX_PATH`, `GEMINI_PATH`, `OPENCODE_PATH`, and `QWEN_PATH` are set to executable paths.
+
 ## Usage
 
 This image is designed to work with `codex.serve`.
