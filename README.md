@@ -34,6 +34,12 @@ The test script builds a temporary image (`codex-cli-env:test`) and verifies:
 
 - Base image is Ubuntu.
 - All required CLI binaries are available and return `--version`.
+- Per-CLI provider settings are validated with explicit test values for base URL, API key, and model:
+	- `claude`: `ANTHROPIC_BASE_URL`, `ANTHROPIC_AUTH_TOKEN`, `ANTHROPIC_MODEL`
+	- `codex`: `LITELLM_API_BASE`, `LITELLM_API_KEY`, and `~/.codex/config.toml` model/provider config
+	- `gemini`: `GOOGLE_GEMINI_BASE_URL`, `GEMINI_API_KEY`, `GEMINI_MODEL`
+	- `opencode`: `OPENAI_BASE_URL`, `OPENAI_API_KEY`, `OPENAI_MODEL`
+	- `qwen`: `OPENAI_BASE_URL`, `OPENAI_API_KEY`, `OPENAI_MODEL`
 - `CLAUDE_PATH`, `CODEX_PATH`, `GEMINI_PATH`, `OPENCODE_PATH`, and `QWEN_PATH` are set to executable paths.
 
 ## Usage
