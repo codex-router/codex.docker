@@ -67,7 +67,8 @@ EOF
             "npm": "@ai-sdk/openai-compatible",
             "name": "LiteLLM",
             "options": {
-                "baseURL": "${BASE_URL}"
+                "baseURL": "${BASE_URL}",
+                "apiKey": "${API_KEY}"
             },
             "models": {
                 "${MODEL}": {
@@ -87,7 +88,8 @@ EOF
             "npm": "@ai-sdk/openai-compatible",
             "name": "LiteLLM",
             "options": {
-                "baseURL": "${BASE_URL}"
+                "baseURL": "${BASE_URL}",
+                "apiKey": "${API_KEY}"
             }
         }
     }
