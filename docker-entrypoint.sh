@@ -4,8 +4,6 @@ set -e
 # CLI_PROVIDER_NAME can be: claude, codex, gemini, opencode, qwen
 
 if [ -n "$CLI_PROVIDER_NAME" ]; then
-    echo "Configuring environment for CLI provider: $CLI_PROVIDER_NAME"
-
     # Common variables from environment
     BASE_URL="${LITELLM_BASE_URL:-}"
     API_KEY="${LITELLM_API_KEY:-}"
