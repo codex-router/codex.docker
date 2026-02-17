@@ -36,7 +36,7 @@ The test script builds a temporary image (`codex-cli-env:test`) and verifies:
 - All required CLI binaries are available and return `--version`.
 - Per-CLI provider settings are validated with explicit test values for base URL, API key, and model:
 	- `claude`: `ANTHROPIC_BASE_URL`, `ANTHROPIC_AUTH_TOKEN`, `ANTHROPIC_MODEL`
-	- `codex`: `LITELLM_API_BASE`, `LITELLM_API_KEY`, and `~/.codex/config.toml` model/provider config
+  - `codex`: `LITELLM_BASE_URL`, `LITELLM_API_KEY`, and `~/.codex/config.toml` model/provider config
 	- `gemini`: `GOOGLE_GEMINI_BASE_URL`, `GEMINI_API_KEY`, `GEMINI_MODEL`
 	- `opencode`: `OPENAI_BASE_URL`, `OPENAI_API_KEY`, `OPENAI_MODEL`
 	- `qwen`: `OPENAI_BASE_URL`, `OPENAI_API_KEY`, `OPENAI_MODEL`

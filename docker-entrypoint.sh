@@ -18,9 +18,9 @@ if [ -n "$CLI_PROVIDER_NAME" ]; then
             [ -n "$MODEL" ] && export ANTHROPIC_MODEL="$MODEL"
             ;;
         "codex")
-            # Codex uses LITELLM_API_BASE and LITELLM_API_KEY env vars
-            [ -n "$BASE_URL" ] && export LITELLM_API_BASE="$BASE_URL"
-            # LITELLM_API_KEY is already set if passed, but being explicit doesn't hurt
+            # Codex uses LITELLM_BASE_URL and LITELLM_API_KEY env vars
+            [ -n "$BASE_URL" ] && export LITELLM_BASE_URL="$BASE_URL"
+            # LITELLM_API_KEY is already set if passed, but being explicit does not hurt
             [ -n "$API_KEY" ] && export LITELLM_API_KEY="$API_KEY"
 
             # Generate config file if needed
