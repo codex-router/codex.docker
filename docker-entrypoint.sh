@@ -61,7 +61,7 @@ EOF
                                 if [ -n "$MODEL" ]; then
                                         cat >"${OPENCODE_CONFIG}" <<EOF
 {
-    "$schema": "https://opencode.ac.cn/config.json",
+    "\$schema": "https://opencode.ac.cn/config.json",
     "provider": {
         "litellm": {
             "npm": "@ai-sdk/openai-compatible",
@@ -81,7 +81,7 @@ EOF
                                 else
                                         cat >"${OPENCODE_CONFIG}" <<EOF
 {
-    "$schema": "https://opencode.ac.cn/config.json",
+    "\$schema": "https://opencode.ac.cn/config.json",
     "provider": {
         "litellm": {
             "npm": "@ai-sdk/openai-compatible",
