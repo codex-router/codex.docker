@@ -119,7 +119,20 @@ if [ "$1" = "codex" ] && [ ! -t 0 ]; then
     # We shift the first argument ('codex') and replace it with 'codex exec'
     shift
     # Automatically add --skip-git-repo-check to allow running in non-git directories (like container root)
-    exec codex exec --skip-git-repo-check "$@"
+    # Use --json + --output-last-message, then suppress JSONL event output so only the
+    # assistant's final message is printed to stdout.
+    CODEX_LAST_MESSAGE_FILE="$(mktemp)"
+    set +e
+    codex exec --skip-git-repo-check --json --output-last-message "$CODEX_LAST_MESSAGE_FILE" "$@" >/dev/null
+    CODEX_EXIT_CODE=$?
+    set -e
+
+    if [ -f "$CODEX_LAST_MESSAGE_FILE" ]; then
+        cat "$CODEX_LAST_MESSAGE_FILE"
+        rm -f "$CODEX_LAST_MESSAGE_FILE"
+    fi
+
+    exit "$CODEX_EXIT_CODE"
 elif [ "$1" = "opencode" ] && [ ! -t 0 ]; then
     # When running without a TTY (usually non-interactive mode), 'opencode' attempts to launch a TUI and treat arguments as folders.
     # We switch to 'opencode run' to execute a prompt non-interactively.
@@ -136,11 +149,23 @@ elif [ "$1" = "opencode" ] && [ ! -t 0 ]; then
         prev_arg="$arg"
     done
 
+    OPENCODE_LAST_MESSAGE_FILE="$(mktemp)"
+    set +e
     if [ -n "$LITELLM_MODEL" ] && [ "$has_model_flag" = "false" ]; then
-        exec opencode run --model "litellm/${LITELLM_MODEL}" "$@"
+        opencode run --model "litellm/${LITELLM_MODEL}" --print-logs false --output-file "$OPENCODE_LAST_MESSAGE_FILE" "$@" >/dev/null
+        OPENCODE_EXIT_CODE=$?
+    else
+        opencode run --print-logs false --output-file "$OPENCODE_LAST_MESSAGE_FILE" "$@" >/dev/null
+        OPENCODE_EXIT_CODE=$?
+    fi
+    set -e
+
+    if [ -f "$OPENCODE_LAST_MESSAGE_FILE" ]; then
+        cat "$OPENCODE_LAST_MESSAGE_FILE"
+        rm -f "$OPENCODE_LAST_MESSAGE_FILE"
     fi
 
-    exec opencode run "$@"
+    exit "$OPENCODE_EXIT_CODE"
 else
     exec "$@"
 fi
