@@ -74,6 +74,12 @@ if [ "$1" = "codex" ] && [ ! -t 0 ]; then
     shift
     # Automatically add --skip-git-repo-check to allow running in non-git directories (like container root)
     exec codex exec --skip-git-repo-check "$@"
+elif [ "$1" = "opencode" ] && [ ! -t 0 ]; then
+    # When running without a TTY (usually non-interactive mode), 'opencode' attempts to launch a TUI and treat arguments as folders.
+    # We switch to 'opencode run' to execute a prompt non-interactively.
+    # We shift the first argument ('opencode') and exec 'opencode run' with the rest of arguments
+    shift
+    exec opencode run "$@"
 else
     exec "$@"
 fi

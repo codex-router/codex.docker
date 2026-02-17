@@ -49,6 +49,9 @@ ENV QWEN_PATH=${QWEN_PATH}
 COPY docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
+# Set working directory to /app so tools that default to CWD don't run in /
+WORKDIR /app
+
 # Default entrypoint
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["/bin/bash"]
