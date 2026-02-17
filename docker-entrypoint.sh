@@ -37,6 +37,10 @@ env_key = "LITELLM_API_KEY"
 wire_api = "responses"
 EOF
             fi
+
+            # If the command is just 'codex' and arguments, we might need to handle
+            # non-interactive execution if the tool requires a TTY.
+            # However, for 'codex' specifically, passing the prompt as an argument usually works.
             ;;
         "gemini")
             [ -n "$BASE_URL" ] && export GOOGLE_GEMINI_BASE_URL="$BASE_URL"
@@ -60,4 +64,16 @@ EOF
 fi
 
 # Execute the passed command
-exec "$@"
+if [ "$1" = "codex" ] && [ ! -t 0 ]; then
+    # When running without a TTY, 'codex' attempts to launch a TUI and fails.
+    # The 'codex exec' subcommand is designed for non-interactive use.
+    # We allow the user to pass 'codex' as the command, but transparently switch
+    # to 'codex exec' if we detect there is no TTY.
+
+    # We shift the first argument ('codex') and replace it with 'codex exec'
+    shift
+    # Automatically add --skip-git-repo-check to allow running in non-git directories (like container root)
+    exec codex exec --skip-git-repo-check "$@"
+else
+    exec "$@"
+fi
