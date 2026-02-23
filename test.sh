@@ -73,9 +73,6 @@ echo "- Verifying base image (Ubuntu)"
 docker run --rm "$IMAGE_TAG" bash -c 'grep -qi "^ID=ubuntu" /etc/os-release'
 
 # 2. Provider checks
-# Claude -> ANTHROPIC_BASE_URL, ANTHROPIC_AUTH_TOKEN, ANTHROPIC_MODEL
-run_provider_test "claude" "ANTHROPIC_BASE_URL ANTHROPIC_AUTH_TOKEN ANTHROPIC_MODEL"
-
 # Codex -> LITELLM_BASE_URL, LITELLM_API_KEY (and config file check inside helper)
 run_provider_test "codex" "LITELLM_BASE_URL LITELLM_API_KEY"
 

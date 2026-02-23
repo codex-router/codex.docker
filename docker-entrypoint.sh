@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-# AGENT_PROVIDER_NAME can be: claude, codex, gemini, opencode, qwen
+# AGENT_PROVIDER_NAME can be: codex, gemini, opencode, qwen
 
 if [ -n "$AGENT_PROVIDER_NAME" ]; then
     # Common variables from environment
@@ -10,11 +10,6 @@ if [ -n "$AGENT_PROVIDER_NAME" ]; then
     MODEL="${LITELLM_MODEL:-}"
 
     case "$AGENT_PROVIDER_NAME" in
-        "claude")
-            [ -n "$BASE_URL" ] && export ANTHROPIC_BASE_URL="$BASE_URL"
-            [ -n "$API_KEY" ] && export ANTHROPIC_AUTH_TOKEN="$API_KEY"
-            [ -n "$MODEL" ] && export ANTHROPIC_MODEL="$MODEL"
-            ;;
         "codex")
             # Codex uses LITELLM_BASE_URL and LITELLM_API_KEY env vars
             [ -n "$BASE_URL" ] && export LITELLM_BASE_URL="$BASE_URL"
