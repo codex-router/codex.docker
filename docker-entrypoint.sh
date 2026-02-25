@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-# AGENT_PROVIDER_NAME can be: codex, gemini, opencode, qwen
+# AGENT_PROVIDER_NAME can be: codex, opencode, qwen
 
 if [ -n "$AGENT_PROVIDER_NAME" ]; then
     # Common variables from environment
@@ -34,11 +34,6 @@ EOF
             # If the command is just 'codex' and arguments, we might need to handle
             # non-interactive execution if the tool requires a TTY.
             # However, for 'codex' specifically, passing the prompt as an argument usually works.
-            ;;
-        "gemini")
-            [ -n "$BASE_URL" ] && export GOOGLE_GEMINI_BASE_URL="$BASE_URL"
-            [ -n "$API_KEY" ] && export GEMINI_API_KEY="$API_KEY"
-            [ -n "$MODEL" ] && export GEMINI_MODEL="$MODEL"
             ;;
         "opencode")
             [ -n "$BASE_URL" ] && export OPENAI_BASE_URL="$BASE_URL"

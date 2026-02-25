@@ -13,7 +13,7 @@ echo "[2/2] Running smoke tests in container"
 
 TEST_BASE_URL="https://litellm.example.com"
 TEST_API_KEY="sk-test-key"
-TEST_MODEL="gemini-2.5-pro"
+TEST_MODEL="gpt-5"
 
 run_provider_test() {
     local provider="$1"
@@ -75,9 +75,6 @@ docker run --rm "$IMAGE_TAG" bash -c 'grep -qi "^ID=ubuntu" /etc/os-release'
 # 2. Provider checks
 # Codex -> LITELLM_BASE_URL, LITELLM_API_KEY (and config file check inside helper)
 run_provider_test "codex" "LITELLM_BASE_URL LITELLM_API_KEY"
-
-# Gemini -> GOOGLE_GEMINI_BASE_URL, GEMINI_API_KEY, GEMINI_MODEL
-run_provider_test "gemini" "GOOGLE_GEMINI_BASE_URL GEMINI_API_KEY GEMINI_MODEL"
 
 # Opencode -> OPENAI_BASE_URL, OPENAI_API_KEY, OPENAI_MODEL
 run_provider_test "opencode" "OPENAI_BASE_URL OPENAI_API_KEY OPENAI_MODEL"
