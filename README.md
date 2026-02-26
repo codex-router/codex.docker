@@ -7,6 +7,7 @@ Docker environment for the Codex Gerrit plugin agents. This image bundles all su
 - **Codex CLI** (`codex`): Installed via `@openai/codex`.
 - **OpenCode** (`opencode`): Installed via `opencode-ai`.
 - **Qwen Code** (`qwen`): Installed via `@qwen-code/qwen-code`.
+- **Kimi Code CLI** (`kimi`): Installed via `kimi-cli`.
 
 ## Requirements
 
@@ -36,7 +37,8 @@ The test script builds a temporary image (`codex-agent:test`) and verifies:
   - `codex`: `LITELLM_BASE_URL`, `LITELLM_API_KEY`, and `~/.codex/config.toml` model/provider config
 	- `opencode`: `OPENAI_BASE_URL`, `OPENAI_API_KEY`, `OPENAI_MODEL`
 	- `qwen`: `OPENAI_BASE_URL`, `OPENAI_API_KEY`, `OPENAI_MODEL`
-- `CODEX_PATH`, `OPENCODE_PATH`, and `QWEN_PATH` are set to executable paths.
+  - `kimi`: `KIMI_BASE_URL`, `KIMI_API_KEY`, `KIMI_MODEL_NAME`
+- `CODEX_PATH`, `OPENCODE_PATH`, `QWEN_PATH`, and `KIMI_PATH` are set to executable paths.
 
 ## Usage
 
@@ -61,13 +63,14 @@ docker run -it --rm craftslab/codex-agent:latest bash
 codex --version
 opencode --version
 qwen --version
+kimi --version
 ```
 
 ### Configuration via Environment Variables
 
 The image supports automatic configuration of the agents using a standard set of environment variables. This is handled by the entrypoint script.
 
-- `AGENT_PROVIDER_NAME`: The name of the agent to configure (`codex`, `opencode`, `qwen`).
+- `AGENT_PROVIDER_NAME`: The name of the agent to configure (`codex`, `opencode`, `qwen`, `kimi`).
 - `LITELLM_BASE_URL`: The base URL for the API provider.
 - `LITELLM_API_KEY`: The API key for the provider.
 - `LITELLM_MODEL`: The model name to use.

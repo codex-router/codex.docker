@@ -82,4 +82,7 @@ run_provider_test "opencode" "OPENAI_BASE_URL OPENAI_API_KEY OPENAI_MODEL"
 # Qwen -> OPENAI_BASE_URL, OPENAI_API_KEY, OPENAI_MODEL
 run_provider_test "qwen" "OPENAI_BASE_URL OPENAI_API_KEY OPENAI_MODEL"
 
+# Kimi -> KIMI_BASE_URL, KIMI_API_KEY, KIMI_MODEL_NAME
+run_provider_test "kimi" "KIMI_BASE_URL KIMI_API_KEY KIMI_MODEL_NAME"
+
 echo "All Docker smoke tests passed."

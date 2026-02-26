@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-# AGENT_PROVIDER_NAME can be: codex, opencode, qwen
+# AGENT_PROVIDER_NAME can be: codex, opencode, qwen, kimi
 
 if [ -n "$AGENT_PROVIDER_NAME" ]; then
     # Common variables from environment
@@ -91,6 +91,11 @@ EOF
             [ -n "$API_KEY" ] && export OPENAI_API_KEY="$API_KEY"
             [ -n "$MODEL" ] && export OPENAI_MODEL="$MODEL"
             ;;
+        "kimi")
+            [ -n "$BASE_URL" ] && export KIMI_BASE_URL="$BASE_URL"
+            [ -n "$API_KEY" ] && export KIMI_API_KEY="$API_KEY"
+            [ -n "$MODEL" ] && export KIMI_MODEL_NAME="$MODEL"
+            ;;
         *)
             echo "Warning: Unknown AGENT_PROVIDER_NAME: $AGENT_PROVIDER_NAME"
             ;;
@@ -177,6 +182,44 @@ elif [ "$1" = "opencode" ] && [ ! -t 0 ]; then
     rm -f "$OPENCODE_LAST_MESSAGE_FILE" "$OPENCODE_STDERR_FILE"
 
     exit "$OPENCODE_EXIT_CODE"
+elif [ "$1" = "kimi" ] && [ ! -t 0 ]; then
+    # When running without a TTY, prefer Kimi print mode to avoid interactive UI.
+    # - If the first arg is a known subcommand (e.g. info/mcp), run as-is.
+    # - If user already passed prompt flags/options, run as-is.
+    # - Otherwise, treat remaining args as a single prompt.
+    shift
+
+    first_arg="${1:-}"
+    case "$first_arg" in
+        "" )
+            exec kimi --quiet
+            ;;
+        info|mcp|acp|web|term)
+            exec kimi "$@"
+            ;;
+    esac
+
+    has_prompt_flag=false
+    prev_arg=""
+    for arg in "$@"; do
+        if [ "$prev_arg" = "--prompt" ] || [ "$prev_arg" = "-p" ] || [ "$prev_arg" = "--command" ] || [ "$prev_arg" = "-c" ]; then
+            has_prompt_flag=true
+            break
+        fi
+        case "$arg" in
+            --prompt|--command|-p|-c|--prompt=*|--command=*)
+                has_prompt_flag=true
+                break
+                ;;
+        esac
+        prev_arg="$arg"
+    done
+
+    if [ "$has_prompt_flag" = "true" ] || [[ "$first_arg" == -* ]]; then
+        exec kimi "$@"
+    else
+        exec kimi --quiet -p "$*"
+    fi
 else
     exec "$@"
 fi
